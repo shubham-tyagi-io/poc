@@ -17,19 +17,23 @@ jobs:
       - name: Get commit count
         run: echo "COMMIT_COUNT=$(git rev-list ${{ github.sha }} --count)" >> $GITHUB_ENV
 
-      - name: Build and Push Docker Image
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - name: docker login
         run: |
-          docker buildx create --use
-          docker buildx build --push \
-            --tag shubhamtyagiio/poc:${{ github.sha }} \
-            --tag shubhamtyagiio/poc:latest \
-            --build-arg COMMIT_COUNT=${COMMIT_COUNT} \
-            --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
-            .
+          docker login -u shubhamtyagiio -p Young&4ever
 
-          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-          docker push shubhamtyagiio/poc:${{ github.sha }}
-          docker push shubhamtyagiio/poc:latest
+      # - name: Build and Push Docker Image
+      #   env:
+      #     DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      #     DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      #   run: |
+      #     docker buildx create --use
+      #     docker buildx build --push \
+      #       --tag shubhamtyagiio/poc:${{ github.sha }} \
+      #       --tag shubhamtyagiio/poc:latest \
+      #       --build-arg COMMIT_COUNT=${COMMIT_COUNT} \
+      #       --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+      #       .
+
+      #     echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+      #     docker push shubhamtyagiio/poc:${{ github.sha }}
+      #     docker push shubhamtyagiio/poc:latest
