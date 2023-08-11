@@ -19,7 +19,7 @@ jobs:
 
       - name: docker login
         run: |
-          docker login -u shubhamtyagiio -p Young&4ever
+          docker login -u shubhamtyagiio -p dckr_pat_co6WHeGEn_Q4mfcNDhtj3MHPQKc
 
       # - name: Build and Push Docker Image
       #   env:
