@@ -17,11 +17,11 @@ jobs:
 
       - name: Get latest tag
         id: get_tag
-        run: echo "::set-output name=TAG::$(git rev-parse HEAD)"
+        run: export "TAG=$(git rev-parse HEAD)"
 
       - name: Get commit count
         id: get_commit_count
-        run: echo "::set-output name=COMMIT_COUNT::$(git rev-list ${GITHUB_SHA} --count)"
+        run: export "TAGCOMMIT_COUNT=$(git rev-list ${GITHUB_SHA} --count)"
 
       - name: Echo  variables
         run: |
