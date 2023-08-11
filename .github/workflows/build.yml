@@ -28,12 +28,12 @@ jobs:
         run: |
           docker buildx create --use
           docker buildx build --push \
-            --tag shubhamtyagiio/poc:${{ github.sha }} \
-            --tag shubhamtyagiio/poc:latest \
+            --tag shubhamtyagiio/demo:${{ github.sha }} \
+            --tag shubhamtyagiio/demo:latest \
             --build-arg COMMIT_COUNT=${COMMIT_COUNT} \
             --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
             .
 
           echo dckr_pat_co6WHeGEn_Q4mfcNDhtj3MHPQKc | docker login -u shubhamtyagiio --password-stdin
-          docker push shubhamtyagiio/poc:${{ github.sha }}
-          docker push shubhamtyagiio/poc:latest
+          docker push shubhamtyagiio/demo:${{ github.sha }}
+          docker push shubhamtyagiio/demo:latest
