@@ -31,7 +31,8 @@ jobs:
           docker buildx build --push \
             --tag shubhamtyagiio/demo:${IMAGE_TAG} \
             --build-arg COMMIT_COUNT=${COMMIT_COUNT} \
-            --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+            --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+            .
      
       - name: Push Docker Image
         env:
