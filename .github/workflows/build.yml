@@ -21,7 +21,7 @@ jobs:
         run: |
           docker login -u shubhamtyagiio -p dckr_pat_co6WHeGEn_Q4mfcNDhtj3MHPQKc
 
-      - name: Build and Push Docker Image
+      - name: Build Docker Image
         env:
           DOCKER_USERNAME: shubhamtyagiio
           DOCKER_PASSWORD: dckr_pat_co6WHeGEn_Q4mfcNDhtj3MHPQKc
@@ -30,11 +30,12 @@ jobs:
           docker buildx create --use
           docker buildx build --push \
             --tag shubhamtyagiio/demo:${IMAGE_TAG} \
-            --tag shubhamtyagiio/demo:latest \
             --build-arg COMMIT_COUNT=${COMMIT_COUNT} \
-            --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
-            .
-
-          echo dckr_pat_co6WHeGEn_Q4mfcNDhtj3MHPQKc | docker login -u shubhamtyagiio --password-stdin
-          docker push shubhamtyagiio/demo:${IMAGE_TAG}
-          docker push shubhamtyagiio/demo:latest
+            --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+     
+      - name: Push Docker Image
+        env:
+          DOCKER_USERNAME: shubhamtyagiio
+          DOCKER_PASSWORD: dckr_pat_co6WHeGEn_Q4mfcNDhtj3MHPQKc
+          IMAGE_TAG: ${{ github.sha }}
+        run: docker push shubhamtyagiio/demo:${IMAGE_TAG}
