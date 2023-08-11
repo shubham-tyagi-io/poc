@@ -1,8 +1,7 @@
 name: Publish Docker Image
 on:
   push:
-    # tags:
-    #   - '*'
+
 
 jobs:
   build-and-push:
@@ -15,18 +14,8 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Get latest tag
-        id: get_tag
-        run: export "TAG=$(git rev-parse HEAD)"
-
       - name: Get commit count
-        id: get_commit_count
-        run: export "TAGCOMMIT_COUNT=$(git rev-list ${GITHUB_SHA} --count)"
-
-      - name: Echo  variables
-        run: |
-          echo $COMMIT_COUNT
-          echo $TAG
+        run: echo "COMMIT_COUNT=$(git rev-list ${{ github.sha }} --count)" >> $GITHUB_ENV
 
       - name: Build and Push Docker Image
         env:
@@ -35,12 +24,12 @@ jobs:
         run: |
           docker buildx create --use
           docker buildx build --push \
-            --tag shubhamtyagiio/poc:${{ steps.get_tag.output.TAG }} \
+            --tag shubhamtyagiio/poc:${{ github.sha }} \
             --tag shubhamtyagiio/poc:latest \
-            --build-arg COMMIT_COUNT=${{ steps.get_commit_count.output.COMMIT_COUNT }} \
+            --build-arg COMMIT_COUNT=${COMMIT_COUNT} \
             --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
             .
 
-          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-          docker push shubhamtyagiio/poc:${{ steps.get_tag.output.TAG }}
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          docker push shubhamtyagiio/poc:${{ github.sha }}
           docker push shubhamtyagiio/poc:latest
