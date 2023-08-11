@@ -17,10 +17,14 @@ jobs:
       - name: Get commit count
         run: echo "COMMIT_COUNT=$(git rev-list ${{ github.sha }} --count)" >> $GITHUB_ENV
 
+      - name: docker login
+        run: |
+          docker login -u shubhamtyagiio -p dckr_pat_co6WHeGEn_Q4mfcNDhtj3MHPQKc
+
       - name: Build and Push Docker Image
         env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: shubhamtyagiio
+          DOCKER_PASSWORD: dckr_pat_co6WHeGEn_Q4mfcNDhtj3MHPQKc
         run: |
           docker buildx create --use
           docker buildx build --push \
@@ -30,6 +34,6 @@ jobs:
             --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
             .
 
-          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          echo dckr_pat_co6WHeGEn_Q4mfcNDhtj3MHPQKc | docker login -u shubhamtyagiio --password-stdin
           docker push shubhamtyagiio/poc:${{ github.sha }}
           docker push shubhamtyagiio/poc:latest
