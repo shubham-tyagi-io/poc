@@ -23,6 +23,11 @@ jobs:
         id: get_commit_count
         run: echo "::set-output name=COMMIT_COUNT::$(git rev-list ${GITHUB_SHA} --count)"
 
+      - name: Echo  variables
+        run: |
+          echo $COMMIT_COUNT
+          echo $TAG
+
       - name: Build and Push Docker Image
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
