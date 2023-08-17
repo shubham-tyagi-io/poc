@@ -17,8 +17,13 @@ jobs:
         with:
           node-version: '14'
 
+      - name: directory
+        run: echo "PATH=$(pwd) >> $GITHUB_ENV"
+
       - name: Install Dependencies
-        run: npm install
+        run: |
+          cd ${PATH}
+          npm install
 
       - name: Build Storybook
         run: npm run build-storybook
