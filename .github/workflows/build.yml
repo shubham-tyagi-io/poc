@@ -1,6 +1,6 @@
 name: Publish Docker Image
 on:
-  push:
+  workflow-dispatch:
 
 
 jobs:
@@ -33,6 +33,4 @@ jobs:
             --build-arg COMMIT_COUNT=${COMMIT_COUNT} \
             --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
             .
-          docker images
-          echo 'shubhamtyagiio/demo:${IMAGE_TAG}'
-          docker push shubhamtyagiio/demo:${IMAGE_TAG}
+
