@@ -1,34 +1,45 @@
-name: Build and Deploy
+name: Publish Docker Image
 on:
-  push:
+  workflow-dispatch:
+    inputs:
+      environement:
+        description: Type of environement
+        type: choice
+        required: true
+        default: dev
+        options:
+          - stg
+          -prd
+
+
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-      - name: directory
+      - name: Get commit count
+        run: echo "COMMIT_COUNT=$(git rev-list ${{ github.sha }} --count)" >> $GITHUB_ENV
+
+      - name: docker login
         run: |
-          pwd
-          echo "APP_PATH=$(pwd) >> $GITHUB_ENV"
+          docker login -u shubhamtyagiio -p dckr_pat_co6WHeGEn_Q4mfcNDhtj3MHPQKc
 
-      - name: Install Dependencies
+      - name: Build Docker Image
+        env:
+          DOCKER_USERNAME: shubhamtyagiio
+          DOCKER_PASSWORD: dckr_pat_co6WHeGEn_Q4mfcNDhtj3MHPQKc
+          IMAGE_TAG: ${{ github.sha }}
         run: |
-          cd /home/runner/work/poc
-          npm install
+          docker buildx create --use
+          docker buildx build --push \
+            --tag shubhamtyagiio/demo:${IMAGE_TAG} \
+            --build-arg COMMIT_COUNT=${COMMIT_COUNT} \
+            --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+            .
 
-      - name: Build Storybook
-        run: npm run build-storybook
-
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.1
-        with:
-          branch: gh-pages
-          folder: storybook-static
