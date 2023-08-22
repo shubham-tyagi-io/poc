@@ -1,6 +1,15 @@
 name: Publish Docker Image
 on:
   workflow-dispatch:
+    inputs:
+      environement:
+        description: Type of environement
+        type: choice
+        required: true
+        default: dev
+        options:
+          - stg
+          -prd
 
 
 jobs:
