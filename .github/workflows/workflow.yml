@@ -32,7 +32,8 @@ jobs:
     steps:
       - name: echo
         shell: bash
-          echo ${{ matrix.print }}
+        run: |
+           echo ${{ matrix.print }}
 
       - name: Check out repository
         uses: actions/checkout@v3
