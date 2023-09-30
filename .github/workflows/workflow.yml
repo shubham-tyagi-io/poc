@@ -15,12 +15,21 @@ env:
   archive_result: ${{github.event.inputs.archive_repo}}
 
 jobs:
+  envPrepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+    outputs:
+      archive_result: ${{env.archive_result}}
+
   fetch_repos:
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: shell script
         shell: bash
@@ -28,14 +37,14 @@ jobs:
           pwd > test.txt
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: my-artifacts
           path: test.txt
 
   approval:
     runs-on: ubuntu-latest
-    if: conatins(needs.env.archive_result, 'true')
+    if: conatins(needs.envPrepare.outputs.archive_result, 'true')
     needs: [fetch_repos]
     steps: 
       - name: approval
@@ -48,7 +57,7 @@ jobs:
     needs: [fetch_repos, approval]
     steps:
       - name: Download Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: my-artifacts  
           path: test.txt
