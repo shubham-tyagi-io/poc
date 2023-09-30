@@ -44,7 +44,7 @@ jobs:
 
   approval:
     runs-on: ubuntu-latest
-    if: conatins(needs.envPrepare.outputs.archive_result, 'true')
+    if: contains(needs.env.archive_result, 'true')
     needs: [fetch_repos]
     steps: 
       - name: approval
