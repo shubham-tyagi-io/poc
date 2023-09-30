@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy: 
       matrix: 
-        print: ${{ split(inputs.organization_name, ',') }}
+        print: ${{ split(github.event.inputs.organization_name, ',') }}
     steps:
       - name: echo
         shell: bash
