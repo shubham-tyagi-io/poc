@@ -1,0 +1,54 @@
+name: Workflow test
+
+on:
+  workflow_dispatch:
+    inputs:
+      organization_name:
+        description: 'Organization Name'
+        required: true
+      archive_repo:
+        description: "repository archival"
+        type: boolean
+        default: false
+
+env: 
+  archive_result: ${{github.event.inputs.archive_repo}}
+
+jobs:
+  fetch_repos:
+  runs-on: ubuntu-latest
+
+  steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: shell script
+      shell: bash
+      run: |
+        pwd > test.txt
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: my-artifacts
+        path: test.txt
+
+  approval:
+  runs-on: ubuntu-latest
+  if: conatins(needs.env.archive_result, 'true')
+  needs: [fetch_repos]
+  steps: 
+    - name: approval
+      shell: bash
+      run: |
+        echo "approval"
+
+  download:
+  runs-on: ubuntu-latest
+  needs: [fetch_repos, approval]
+    - name: Download Artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: my-artifacts  
+        path: test.txt
+  
