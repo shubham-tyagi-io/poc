@@ -26,8 +26,14 @@ jobs:
 
   fetch_repos:
     runs-on: ubuntu-latest
-
+    strategy: 
+      matrix: 
+        print: [${{github.event.inputs.organization_name}}]
     steps:
+      - name: echo
+        shell: bash
+          echo ${{ matrix.print }}
+          
       - name: Check out repository
         uses: actions/checkout@v3
 
