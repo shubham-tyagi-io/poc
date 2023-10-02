@@ -6,6 +6,7 @@ on:
       organization_name:
         description: 'Organization Name'
         required: true
+        default: abc, pqr, xyz
       archive_repo:
         description: "repository archival"
         type: boolean
@@ -21,51 +22,56 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
 
+      - name: prepare repo names to list
+        id: step1
+        run: | 
+          echo -e 'outputtemp = list("${{ github.event.inputs.repo }}".split(","))\nprint ( "::set-output name=repo_name::", outputtemp )' | python
     outputs:
       archive_result: ${{env.archive_result}}
+      repo_name: ${{ steps.step1.repo_name }}
 
   fetch_repos:
     runs-on: ubuntu-latest
     strategy: 
       matrix: 
-        print: ${{ split(github.event.inputs.organization_name, ',') }}
+        print: ${{fromJson(needs.envPrepare.outputs.repo_name)}}
     steps:
       - name: echo
         shell: bash
         run: |
            echo ${{ matrix.print }}
 
-      - name: Check out repository
-        uses: actions/checkout@v3
+  #     - name: Check out repository
+  #       uses: actions/checkout@v3
 
-      - name: shell script
-        shell: bash
-        run: |
-          pwd > test.txt
+  #     - name: shell script
+  #       shell: bash
+  #       run: |
+  #         pwd > test.txt
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: my-artifacts
-          path: test.txt
+  #     - name: Upload Artifacts
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: my-artifacts
+  #         path: test.txt
 
-  approval:
-    runs-on: ubuntu-latest
-    if: contains(needs.env.archive_result, 'true')
-    needs: [fetch_repos]
-    steps: 
-      - name: approval
-        shell: bash
-        run: |
-          echo "approval"
+  # approval:
+  #   runs-on: ubuntu-latest
+  #   if: contains(needs.env.archive_result, 'true')
+  #   needs: [fetch_repos]
+  #   steps: 
+  #     - name: approval
+  #       shell: bash
+  #       run: |
+  #         echo "approval"
 
-  download:
-    runs-on: ubuntu-latest
-    needs: [fetch_repos, approval]
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: my-artifacts  
-          path: test.txt
+  # download:
+  #   runs-on: ubuntu-latest
+  #   needs: [fetch_repos, approval]
+  #   steps:
+  #     - name: Download Artifacts
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: my-artifacts  
+  #         path: test.txt
   
