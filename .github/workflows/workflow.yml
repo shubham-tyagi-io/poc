@@ -7,6 +7,10 @@ on:
         description: 'Organization Name'
         required: true
         default: "abc, pqr, xyz"
+      archive_repo:
+        description: "repository archival"
+        type: boolean
+        default: false
 
 jobs:
   envPrepare:
@@ -18,10 +22,7 @@ jobs:
       - name: prepare repo names to list
         id: step1
         run: |
-          echo "::set-output name=repo_name::$(echo ${{ github.event.inputs.organization_name }} | tr ',' '\n')"
-    outputs:
-      archive_result: ${{ env.archive_result }}
-      repo_name: ${{ steps.step1.outputs.repo_name }}
+          echo "::set-output name=repo_name::[$(echo ${{ github.event.inputs.organization_name }} | sed 's/,/\",\"/g')]"
 
   fetch_repos:
     runs-on: ubuntu-latest
