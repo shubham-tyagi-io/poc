@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        print: ${ {github.event.inputs.organization_name }}
+        print: ${{ github.event.inputs.organization_name }}
     steps:
       - name: echo
         run: |
