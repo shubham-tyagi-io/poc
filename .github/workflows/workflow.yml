@@ -6,7 +6,7 @@ on:
       organization_name:
         description: 'Organization Name'
         required: true
-        default: "["abc-dog-pc", "pqr-str", "prt-jg"]"
+        default: '["abc-dog-pc", "pqr-str", "prt-jg"]'
 
       archive_repo:
         description: "repository archival"
@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        print: ${{ github.event.inputs.organization_name }}
+        print: ${{ fromJson(github.event.inputs.organization_name) }}
     steps:
       - name: echo
         run: |
