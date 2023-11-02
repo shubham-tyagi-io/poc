@@ -16,5 +16,7 @@ This repository is is primarily based on github actions and python scripting. Wi
 users:
   githubid: user1
   role: dev
+  guid: abcpe
+  email: abc@abc.com
   ```
   
