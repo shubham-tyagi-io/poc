@@ -25,6 +25,7 @@ runs:
         java-version: ${{ inputs.java-version }}
 
     - name: Download and install Maven
+      shell: bash
       run: |
         MAVEN_VERSION=${{ inputs.maven-version }}
         wget https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
