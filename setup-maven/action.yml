@@ -1,0 +1,30 @@
+name: 'Setup Maven'
+description: 'Install and configure Maven'
+branding:
+  icon: 'package'
+  color: 'orange'
+
+inputs:
+  java-version:
+    description: 'Java version for Maven setup'
+    required: true
+  maven-version:
+    description: 'Maven version to install'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: ${{ inputs.java-version }}
+
+    - name: Download and install Maven
+      run: |
+        MAVEN_VERSION=${{ inputs.maven-version }}
+        wget https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
+        tar xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz
+        export PATH=$PWD/apache-maven-${MAVEN_VERSION}/bin:$PATH
+        echo "Maven installed successfully"
