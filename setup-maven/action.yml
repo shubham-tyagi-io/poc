@@ -8,9 +8,12 @@ inputs:
   java-version:
     description: 'Java version for Maven setup'
     required: true
+    type: string
+
   maven-version:
     description: 'Maven version to install'
     required: true
+    type: string
 
 runs:
   using: 'composite'
