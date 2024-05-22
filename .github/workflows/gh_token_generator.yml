@@ -21,7 +21,7 @@ jobs:
         
       - name: Run python and shell script
         run: |
-          chmod +x gh_token\script.sh
-          source gh_token\script.sh key.pem 903110 50999118
+          chmod +x gh_token/script.sh
+          source ./gh_token/script.sh key.pem 903110 50999118
           echo "${{env.GITHUB_TOKEN}}"
         
