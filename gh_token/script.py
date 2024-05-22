@@ -51,11 +51,11 @@ if __name__ == '__main__':
     try:
         # Step 1: Create a JWT token
         jwt_token = create_jwt(args.app_id, args.private_key_path)
-        print("JWT Token created successfully")
+        # print("JWT Token created successfully")
 
         # Step 2: Use the JWT token to get a GitHub access token
         github_token = get_github_token(jwt_token, args.installation_id)
-        print("github token", github_token)
+        print(github_token)
 
     except Exception as e:
         print(f"An error occurred: {e}")
