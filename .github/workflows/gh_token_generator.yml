@@ -1,0 +1,27 @@
+name: GH Token Generator
+
+on:
+  push:
+
+jobs:
+  token_generation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: install dependency 
+        run: | 
+          pip install PyJWT requests
+      
+      - name: Export and decode secret key
+        run: |
+          echo "${{ secrets.PRIV_KEY }}" | base64 --decode > key.pem
+        
+      - name: Run python and shell script
+        run: |
+          chmod +x gh_token\script.sh
+          source gh_token\script.sh key.pem 903110 50999118
+          echo "${{env.GITHUB_TOKEN}}"
+        
