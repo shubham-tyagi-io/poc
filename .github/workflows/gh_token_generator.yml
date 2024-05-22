@@ -18,6 +18,15 @@ jobs:
       - name: Export and decode secret key
         run: |
           echo "${{ vars.PRIV_KEY }}" > key.pem
+          
+      - name: Generate GitHub token
+        id: generate_token
+        run: |
+          TOKEN=$(python gh_token/script.py key.pem 12345 67890)
+          echo "::set-output name=GITHUB_TOKEN::$TOKEN"
+  
+      - name: Print GitHub token (for debugging purposes)
+        run: echo "${{ steps.generate_token.outputs.GITHUB_TOKEN }}"
         
       # - name: Run python and shell script
       #   run: |
@@ -27,11 +36,3 @@ jobs:
       #     echo "${{env.GITHUB_TOKEN}}"
       #     echo "$GITHUB_TOKEN
 
-    - name: Generate GitHub token
-      id: generate_token
-      run: |
-        TOKEN=$(python gh_token/script.py key.pem 12345 67890)
-        echo "::set-output name=GITHUB_TOKEN::$TOKEN"
-
-    - name: Print GitHub token (for debugging purposes)
-      run: echo "${{ steps.generate_token.outputs.GITHUB_TOKEN }}"
