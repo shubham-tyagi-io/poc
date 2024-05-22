@@ -25,4 +25,5 @@ jobs:
           python gh_token/script.py key.pem 903110 50999118
           source ./gh_token/script.sh key.pem 903110 50999118
           echo "${{env.GITHUB_TOKEN}}"
+          echo $GITHUB_TOKEN
         
