@@ -17,7 +17,7 @@ jobs:
       
       - name: Export and decode secret key
         run: |
-          echo "${{ secrets.PRIV_KEY }}" > key.pem
+          echo "${{ vars.PRIV_KEY }}" > key.pem
         
       - name: Run python and shell script
         run: |
