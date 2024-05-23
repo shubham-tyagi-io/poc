@@ -18,4 +18,5 @@ jobs:
           installation_id: 50999118
           
       - name: Use GitHub Token
-        run: echo "GitHub Token: ${{ steps.generate_token.outputs.github_token }}"
+        run: |
+          echo "GitHub Token: ${{ steps.generate_token.outputs.github_token }}"
