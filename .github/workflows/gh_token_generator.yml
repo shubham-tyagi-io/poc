@@ -21,6 +21,12 @@ jobs:
         with:
           private_key: "${{ secrets.PRIV_KEY }}"
 
+      - name: export token
+        shell: bash
+        run: |
+          cat token.txt
+          export GHA_TOKEN=$(cat token.txt)
+
       # - name: echo token
       #    shell: bash
       #    run: |
