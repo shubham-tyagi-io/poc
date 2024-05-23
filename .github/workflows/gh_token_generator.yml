@@ -11,7 +11,7 @@ jobs:
       
       - name: Generate GitHub Token
         id: generate_token
-        uses: shubham-tyagi-io/poc/gh_token@main
+        uses: ./gh_token
         with:
           private_key: ${{ secrets.PRIV_KEY }}
           app_id: 903110
