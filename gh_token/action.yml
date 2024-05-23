@@ -25,4 +25,5 @@ runs:
       id: generate_token
 
     - name: Store GitHub Token as Secret
+      shell: bash
       run: echo "GHS_TOKEN=${{ steps.generate_token.outputs.token }}" >> $GITHUB_ENV
