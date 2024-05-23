@@ -3,8 +3,8 @@ description: 'Generates a GitHub token using a private key, app ID, and installa
 
 inputs:
   private_key:
-    description: 'Path to the private key file'
-    required: false
+    description: 'The private key content'
+    required: true
 
 outputs:
   github_token:
@@ -13,17 +13,14 @@ outputs:
 runs:
   using: 'composite'
   steps:
-    - name: key export and set up
+    - name: Export private key
       shell: bash
-      run: | 
-        echo "${{ inputs.private_key }}" > key.pem
+      run: echo "${{ inputs.private_key }}" > key.pem
 
     - name: Execute Python script
       shell: bash
-      run: |
-        python gh_token/script.py key.pem 903110 50999118
       id: generate_token
-
-    - name: Store GitHub Token as Secret
-      shell: bash
-      run: echo "GHS_TOKEN=${{ steps.generate_token.outputs.token }}" >> $GITHUB_ENV
+      run: |
+        TOKEN=$(python gh_token/script.py key.pem 903110 50999118)
+        echo "GITHUB_TOKEN=$TOKEN" >> $GITHUB_ENV
+        echo "::set-output name=github_token::$TOKEN"
