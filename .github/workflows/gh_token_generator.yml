@@ -31,8 +31,7 @@ jobs:
       - name: token test
         shell: bash
         run: |
-          curl -H "Authorization: token '$GHA_TOKEN'" https://api.github.com/user/repos
-
+          python gh_token/test.py $GHA_TOKEN shubham-tyagi-io
 
       # - name: echo token
       #    shell: bash
