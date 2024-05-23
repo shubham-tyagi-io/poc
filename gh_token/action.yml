@@ -24,12 +24,12 @@ runs:
       run: |
         python gh_token/script.py key.pem 903110 50999118 >> token.txt
  
-    # - name: export token
-    #   shell: bash
-    #   run: |
-    #     export GHA_TOKEN=$(cat token.txt)
+    - name: export token
+      shell: bash
+      run: |
+        export GHA_TOKEN=$(cat token.txt)
 
-    # - name: echo token
-    #   shell: bash
-    #   run: |
-    #     echo $GHA_TOKEN
+    - name: echo token
+      shell: bash
+      run: |
+        echo $GHA_TOKEN
