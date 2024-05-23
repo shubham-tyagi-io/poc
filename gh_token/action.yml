@@ -2,14 +2,6 @@ name: 'Generate GitHub Token'
 description: 'Generates a GitHub token using a private key, app ID, and installation ID'
 
 inputs:
-  app_id:
-    description: 'GitHub App ID'
-    required: false
-  installation_id:
-    description: 'Installation ID'
-    required: false
-
-secrets:
   private_key:
     description: 'Path to the private key file'
     required: false
@@ -29,7 +21,7 @@ runs:
     - name: Execute Python script
       shell: bash
       run: |
-        python gh_token/script.py key.pem ${{ inputs.app_id }} ${{ inputs.installation_id }}
+        python gh_token/script.py key.pem 903110 50999118
       id: generate_token
 
     - name: Store GitHub Token as Secret
