@@ -23,11 +23,12 @@ runs:
       run: |
         python gh_token/script.py key.pem 903110 50999118 >> token.txt
  
-
-    - name: Read token from file
-      id: read_token
+    - name: export token
       shell: bash
       run: |
-        TOKEN=$(cat token.txt)
-        echo "GITHUB_TOKEN=$TOKEN" >> $GITHUB_ENV
-        echo "::set-output name=github_token::$TOKEN"
+        export GHA_TOKEN=$(cat token.txt)
+
+    - name: echo token
+      shell: bash
+      run: |
+        echo $GHA_TOKEN

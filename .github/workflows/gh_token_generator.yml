@@ -19,6 +19,11 @@ jobs:
         uses: ./gh_token
         with:
           private_key: "${{ secrets.PRIV_KEY }}"
+
+      - name: echo token
+         shell: bash
+         run: |
+           echo $GHA_TOKEN
           
       - name: Store GitHub Token as Secret
         run: |
