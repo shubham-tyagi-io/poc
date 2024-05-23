@@ -31,7 +31,7 @@ jobs:
       - name: token test
         shell: bash
         run: |
-          python gh_token/test.py ${{env.GHA_TOKEN}} shubham-tyagi-io
+          python gh_token/test.py $(echo $GHA_TOKEN) shubham-tyagi-io
 
       # - name: echo token
       #    shell: bash
