@@ -4,16 +4,16 @@ description: 'Generates a GitHub token using a private key, app ID, and installa
 inputs:
   app_id:
     description: 'GitHub App ID'
-    required: true
+    required: false
   installation_id:
     description: 'Installation ID'
-    required: true
+    required: false
 
 secrets:
   private_key:
     description: 'Path to the private key file'
-    required: true
-    
+    required: false
+
 outputs:
   github_token:
     description: 'Generated GitHub token'
