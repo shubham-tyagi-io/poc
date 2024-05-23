@@ -1,14 +1,19 @@
 name: Build and Deploy
 on:
-  push:
+  workflow_dispatch:
 
 jobs:
-  build:
+  token:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+
+      - name: Use GitHub path
+        run: |
+          echo "Workspace directory: $GITHUB_WORKSPACE"
+          echo "Repository root: $GITHUB_REPOSITORY"
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
