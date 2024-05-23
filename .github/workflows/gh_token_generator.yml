@@ -26,6 +26,7 @@ jobs:
         run: |
           cat token.txt
           export GHA_TOKEN=$(cat token.txt)
+          echo $GHA_TOKEN
 
       # - name: echo token
       #    shell: bash
