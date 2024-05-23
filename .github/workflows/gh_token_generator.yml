@@ -3,17 +3,12 @@ name: Sample Workflow
 on: [push]
 
 jobs:
-  token:
+  validation:
     runs-on: ubuntu-latest
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Use GitHub path
-        run: |
-          echo "Workspace directory: $GITHUB_WORKSPACE"
-          echo "Repository root: $GITHUB_REPOSITORY"
       
       - name: Generate GitHub Token
         id: generate_token
@@ -21,25 +16,27 @@ jobs:
         with:
           private_key: "${{ secrets.PRIV_KEY }}"
 
-      - name: export token
+      - name: trigger python automation scripts
         shell: bash
         run: |
-          cat token.txt
           export GHA_TOKEN=$(cat token.txt)
-          echo $GHA_TOKEN
           python gh_token/test.py $GHA_TOKEN shubham-tyagi-io
 
-      # - name: token test
-      #   shell: bash
-      #   run: |
-      #     python gh_token/test.py $GHA_TOKEN shubham-tyagi-io
+  user_automation:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      # - name: echo token
-      #    shell: bash
-      #    run: |
-      #      echo $GHA_TOKEN
-          
-      # - name: Store GitHub Token as Secret
-      #   run: |
-      #     echo "GHS_TOKEN=${{ steps.generate_token.outputs.github_token }}" >> $GITHUB_ENV
-      #     echo "GHS_TOKEN=${{ env.GHS_TOKEN }}"
+      - name: Generate GitHub Token
+        id: generate_token
+        uses: ./gh_token
+        with:
+          private_key: "${{ secrets.PRIV_KEY }}"
+
+      - name: trigger python automation scripts
+        shell: bash
+        run: |
+          export GHA_TOKEN=$(cat token.txt)
+          python gh_token/test.py $GHA_TOKEN shubham-tyagi-io

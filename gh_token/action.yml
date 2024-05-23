@@ -29,8 +29,3 @@ runs:
       run: |
         cat token.txt
         export GHA_TOKEN=$(cat token.txt)
-
-    - name: echo token
-      shell: bash
-      run: |
-        echo $GHA_TOKEN
