@@ -1,0 +1,36 @@
+name: 'Generate GitHub Token'
+description: 'Generates a GitHub token using a private key, app ID, and installation ID'
+
+inputs:
+  private_key:
+    description: 'Path to the private key file'
+    required: true
+  app_id:
+    description: 'GitHub App ID'
+    required: true
+  installation_id:
+    description: 'Installation ID'
+    required: true
+
+outputs:
+  github_token:
+    description: 'Generated GitHub token'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: key export and set up
+      shell: bash
+      run: | 
+        echo "${{ inputs.private_key }}" > key.pem
+
+    - name: Execute Python script
+      shell: bash
+      run: |
+        python script.py key.pem ${{ inputs.app_id }} ${{ inputs.installation_id }}
+      id: generate_token
+
+    - name: Set GitHub token output
+      shell: bash
+      run: |
+        echo "::set-output name=github_token::${{ steps.generate_token.outputs.token }}"

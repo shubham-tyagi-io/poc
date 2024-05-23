@@ -1,8 +1,13 @@
 import jwt
 import requests
 import time
-import argparse
 from pathlib import Path
+import sys  # Import sys module
+
+# Configuration
+PRIVATE_KEY_PATH = sys.argv[1]  # First argument is the path to the private key
+APP_ID = sys.argv[2]  # Second argument is the GitHub App ID
+INSTALLATION_ID = sys.argv[3]  # Third argument is the Installation ID
 
 # Function to create a JWT token
 def create_jwt(app_id, private_key_path):
@@ -41,20 +46,13 @@ def get_github_token(jwt_token, installation_id):
 
 # Main script execution
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Generate a GitHub token using a JWT.')
-    parser.add_argument('private_key_path', type=str, help='Path to the private key file')
-    parser.add_argument('app_id', type=str, help='GitHub App ID')
-    parser.add_argument('installation_id', type=str, help='GitHub App Installation ID')
-
-    args = parser.parse_args()
-
     try:
         # Step 1: Create a JWT token
-        jwt_token = create_jwt(args.app_id, args.private_key_path)
-        # print("JWT Token created successfully")
+        jwt_token = create_jwt(APP_ID, PRIVATE_KEY_PATH)
+        #print("JWT Token created successfully")
 
         # Step 2: Use the JWT token to get a GitHub access token
-        github_token = get_github_token(jwt_token, args.installation_id)
+        github_token = get_github_token(jwt_token, INSTALLATION_ID)
         print(github_token)
 
     except Exception as e:
