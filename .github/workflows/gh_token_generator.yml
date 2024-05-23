@@ -18,7 +18,7 @@ jobs:
         id: generate_token
         uses: ./gh_token
         with:
-          private_key: ${{ secrets.PRIV_KEY }}
+          private_key: "${{ secrets.PRIV_KEY }}"
           app_id: '903110'
           installation_id: '50999118'
           
