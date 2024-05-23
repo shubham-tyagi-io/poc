@@ -30,7 +30,5 @@ runs:
         python gh_token/script.py key.pem ${{ inputs.app_id }} ${{ inputs.installation_id }}
       id: generate_token
 
-    - name: Set GitHub token output
-      shell: bash
-      run: |
-        echo "::set-output name=github_token::${{ steps.generate_token.outputs.token }}"
+    - name: Store GitHub Token as Secret
+      run: echo "GHS_TOKEN=${{ steps.generate_token.outputs.token }}" >> $GITHUB_ENV

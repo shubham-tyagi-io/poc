@@ -22,6 +22,7 @@ jobs:
           app_id: 903110
           installation_id: 50999118
           
-      - name: Use GitHub Token
+      - name: Store GitHub Token as Secret
         run: |
-          echo "GitHub Token: ${{ steps.generate_token.outputs.github_token }}"
+          echo "GHS_TOKEN=${{ steps.generate_token.outputs.token }}" >> $GITHUB_ENV
+          echo "GHS_TOKEN=${{ env.GHS_TOKEN }}"
