@@ -2,12 +2,17 @@ name: Example Workflow
 on: [push]
 
 jobs:
-  build:
+  token:
     runs-on: ubuntu-latest
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Use GitHub path
+        run: |
+          echo "Workspace directory: $GITHUB_WORKSPACE"
+          echo "Repository root: $GITHUB_REPOSITORY"
       
       - name: Generate GitHub Token
         id: generate_token
