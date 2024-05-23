@@ -29,6 +29,10 @@ runs:
       id: generate_token_cat
       run: |
         cat token.txt
+
+    - name: Store GitHub Token as Secret
+      shell: bash
+      run: |
         echo "GHS_TOKEN=${{ steps.generate_token_cat.outputs }}"
         echo "GHS_TOKEN=${{ steps.generate_token_cat.outputs.token }}"
         echo "GHS_TOKEN=${{ steps.generate_token_cat.outputs.* }}"
