@@ -27,7 +27,7 @@ runs:
     - name: Execute Python script
       shell: bash
       run: |
-        python script.py key.pem ${{ inputs.app_id }} ${{ inputs.installation_id }}
+        python gh_token\script.py key.pem ${{ inputs.app_id }} ${{ inputs.installation_id }}
       id: generate_token
 
     - name: Set GitHub token output
