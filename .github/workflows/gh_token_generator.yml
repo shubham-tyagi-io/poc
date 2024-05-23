@@ -27,11 +27,12 @@ jobs:
           cat token.txt
           export GHA_TOKEN=$(cat token.txt)
           echo $GHA_TOKEN
+          python gh_token/test.py $GHA_TOKEN shubham-tyagi-io
 
-      - name: token test
-        shell: bash
-        run: |
-          python gh_token/test.py $(echo $GHA_TOKEN) shubham-tyagi-io
+      # - name: token test
+      #   shell: bash
+      #   run: |
+      #     python gh_token/test.py $GHA_TOKEN shubham-tyagi-io
 
       # - name: echo token
       #    shell: bash
