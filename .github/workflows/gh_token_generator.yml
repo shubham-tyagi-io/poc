@@ -28,6 +28,12 @@ jobs:
           export GHA_TOKEN=$(cat token.txt)
           echo $GHA_TOKEN
 
+      - name: token test
+        shell: bash
+        run: |
+          curl -H "Authorization: token $GHA_TOKEN" https://api.github.com/user/repos
+
+
       # - name: echo token
       #    shell: bash
       #    run: |
