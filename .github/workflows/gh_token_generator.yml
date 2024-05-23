@@ -21,12 +21,12 @@ jobs:
         with:
           private_key: "${{ secrets.PRIV_KEY }}"
 
-      - name: echo token
-         shell: bash
-         run: |
-           echo $GHA_TOKEN
+      # - name: echo token
+      #    shell: bash
+      #    run: |
+      #      echo $GHA_TOKEN
           
-      - name: Store GitHub Token as Secret
-        run: |
-          echo "GHS_TOKEN=${{ steps.generate_token.outputs.github_token }}" >> $GITHUB_ENV
-          echo "GHS_TOKEN=${{ env.GHS_TOKEN }}"
+      # - name: Store GitHub Token as Secret
+      #   run: |
+      #     echo "GHS_TOKEN=${{ steps.generate_token.outputs.github_token }}" >> $GITHUB_ENV
+      #     echo "GHS_TOKEN=${{ env.GHS_TOKEN }}"
