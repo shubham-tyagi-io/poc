@@ -1,3 +1,4 @@
+---
 name: 'Generate GitHub Token'
 description: 'Generates a GitHub token using a private key, app ID, and installation ID'
 
