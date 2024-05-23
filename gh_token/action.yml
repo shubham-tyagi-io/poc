@@ -21,11 +21,12 @@ runs:
     - name: Execute Python script
       shell: bash
       run: |
-        python gh_token/script.py key.pem 903110 50999118
+        python gh_token/script.py key.pem 903110 50999118 >> token.txt
       id: generate_token
 
     - name: Store GitHub Token as Secret
       shell: bash
       run: |
+        cat token.txt
         echo "GHS_TOKEN=${{ steps.generate_token.outputs.Array.* }}"
         echo "GHS_TOKEN=${{ steps.generate_token.outputs.Array.* }}" >> $GITHUB_ENV
